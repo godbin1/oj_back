@@ -18,4 +18,14 @@ public class AdminServiceImpl implements AdminService {
     public Admin getAdminByName(String username) {
         return adminMapper.getAdminByName(username);
     }
+
+    @Override
+    public int addAdmin(Admin admin){
+        return adminMapper.addAdmin(admin);
+    }
+
+    @Override
+    public Boolean isUsernameExists(Admin admin){
+        return adminMapper.isUsernameExists(admin);
+    }
 }

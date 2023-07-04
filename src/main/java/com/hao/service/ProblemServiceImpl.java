@@ -2,6 +2,7 @@ package com.hao.service;
 
 import com.hao.mapper.ProblemMapper;
 import com.hao.pojo.Problem;
+import com.hao.pojo.TestCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,8 @@ import java.util.Map;
  */
 @Service
 public class ProblemServiceImpl implements ProblemService {
+
+
 
     @Autowired
     private ProblemMapper problemMapper;
@@ -51,4 +54,11 @@ public class ProblemServiceImpl implements ProblemService {
     public Problem queryOneProblemToAdmin(Integer id) {
         return problemMapper.queryOneProblemToAdmin(id);
     }
+
+    @Override
+    public List<TestCase> getTestCaseByProblemId(int id){
+        return problemMapper.getTestCaseByProblemId(id);
+
+    }
+
 }

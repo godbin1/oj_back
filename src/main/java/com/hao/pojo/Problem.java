@@ -18,6 +18,10 @@ public class Problem {
 
     private String testCode;
 
+    private String test_in;
+
+    private String test_out;
+
     public Problem() {
     }
 
@@ -29,6 +33,18 @@ public class Problem {
         this.description = description;
         this.templateCode = templateCode;
         this.testCode = testCode;
+    }
+
+    public Problem(Integer id, String title, String level, String description,
+                   String templateCode, String testCode, String test_in, String test_out) {
+        this.id = id;
+        this.title = title;
+        this.level = level;
+        this.description = description;
+        this.templateCode = templateCode;
+        this.testCode = testCode;
+        this.test_in = test_in;
+        this.test_out = test_out;
     }
 
     public Integer getId() {
@@ -77,6 +93,18 @@ public class Problem {
 
     public void setTestCode(String testCode) {
         this.testCode = testCode;
+    }
+
+    public String getTest_in() {return test_in;}
+
+    public void setTest_in(String test_in) {this.test_in = test_in;}
+
+    public String getTest_out() {
+        return test_out;
+    }
+
+    public void setTest_out(String test_out) {
+        this.test_out = test_out;
     }
 
     @Override

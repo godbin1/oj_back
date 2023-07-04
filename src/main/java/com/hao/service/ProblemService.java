@@ -1,6 +1,7 @@
 package com.hao.service;
 
 import com.hao.pojo.Problem;
+import com.hao.pojo.TestCase;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import java.util.Map;
 /**
  * @author haozhang
  */
-public interface ProblemService {
+public interface    ProblemService {
     /**
      * 查询所有题目
      * @return
@@ -51,4 +52,7 @@ public interface ProblemService {
      * @return
      */
     Problem queryOneProblemToAdmin(Integer id);
+
+    List<TestCase> getTestCaseByProblemId(int id);
+
 }

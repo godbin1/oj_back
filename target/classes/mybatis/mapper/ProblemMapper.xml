@@ -13,7 +13,7 @@
 
     <!--useGeneratedKeys="true" keyProperty="id" 表示我们这个id要自增的-->
     <insert id="insertProblem" parameterType="problem">
-        insert into online_oj.problem(id, title, `level`, description, templateCode, testCode) values (#{id}, #{title}, #{level}, #{description}, #{templateCode}, #{testCode});
+        insert into online_oj.problem(id, title, `level`, description, templateCode, testCode, test_in, test_out) values (#{id}, #{title}, #{level}, #{description}, #{templateCode}, #{testCode}, #{test_in}, #{test_out});
     </insert>
 
 
@@ -46,4 +46,11 @@
     <delete id="deleteProblem">
         delete from online_oj.problem where id=#{id};
     </delete>
+
+    <select id="getTestCaseByProblemId" resultType="testcase">
+        SELECT *
+        FROM testcase
+        WHERE problem_id = ${id}
+    </select>
+
 </mapper>

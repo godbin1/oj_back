@@ -1,6 +1,7 @@
 package com.hao.mapper;
 
 import com.hao.pojo.Problem;
+import com.hao.pojo.TestCase;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -54,4 +55,6 @@ public interface ProblemMapper {
      * @return
      */
     Problem queryOneProblemToAdmin(Integer id);
+
+    List<TestCase> getTestCaseByProblemId(int id);
 }

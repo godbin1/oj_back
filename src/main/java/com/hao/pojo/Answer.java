@@ -1,5 +1,8 @@
 package com.hao.pojo;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * 一次编译运行过程中都产生了哪写数据
@@ -7,7 +10,9 @@ package com.hao.pojo;
  * @author haozhang
  * @date 2020/12/22 09：56
  */
-public class Answer {
+@Getter
+@Setter
+public class  Answer {
 
     /**
      * 通过error来表示当前的错误类型
@@ -26,43 +31,31 @@ public class Answer {
      * 执行时标准输出对应的内容
      */
     private String stdout;
+    private double time;
+    private int memory;
+    private String stderr;
+    private String token;
+    private String compile_output;
+    private String message;
+    private Status status;
+
+    @Getter
+    @Setter
+    public static class Status {
+        private int id;
+        private String description;
+
+        // Getter and Setter methods
+
+        // Constructors
+    }
 
     /**
      * 执行时标准错误对应的内容
      */
-    private String stderr;
 
-    public int getError() {
-        return error;
-    }
 
-    public void setError(int error) {
-        this.error = error;
-    }
 
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public String getStdout() {
-        return stdout;
-    }
-
-    public void setStdout(String stdout) {
-        this.stdout = stdout;
-    }
-
-    public String getStderr() {
-        return stderr;
-    }
-
-    public void setStderr(String stderr) {
-        this.stderr = stderr;
-    }
 
     @Override
     public String toString() {
@@ -71,6 +64,11 @@ public class Answer {
                 ", reason='" + reason + '\'' +
                 ", stdout='" + stdout + '\'' +
                 ", stderr='" + stderr + '\'' +
+                ", time='" + time + '\'' +
+                ", memory='" + memory + '\'' +
+                ", stderr='" + stderr + '\'' +
+                ", description'" + status.description + '\'' +
+                ", compile_output'" + compile_output + '\'' +
                 '}';
     }
 }
