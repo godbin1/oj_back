@@ -7,4 +7,14 @@
     <select id="getAdminByName" resultType="admin">
         select * from online_oj.admin where username=#{username}
     </select>
+
+    <insert id="addAdmin" parameterType="com.hao.pojo.Admin">
+        INSERT INTO online_oj.admin (username, password)
+        VALUES (#{username}, #{password})
+    </insert>
+
+    <select id="isUsernameExists" resultType="java.lang.Boolean">
+        SELECT EXISTS(SELECT 1 FROM admin WHERE username = #{username})
+    </select>
+
 </mapper>

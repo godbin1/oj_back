@@ -1,6 +1,9 @@
 package com.hao.service;
 
 import com.hao.pojo.Admin;
+import com.hao.pojo.TestCase;
+
+import java.util.List;
 
 public interface AdminService {
     /**
@@ -9,4 +12,9 @@ public interface AdminService {
      * @return
      */
     Admin getAdminByName(String username);
+
+    int addAdmin(Admin admin);
+
+    Boolean isUsernameExists(Admin admin);
+
 }

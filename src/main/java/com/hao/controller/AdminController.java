@@ -8,7 +8,6 @@ import com.hao.util.HttpBodyHandlerUtils;
 import com.hao.util.PojoToMapUtils;
 import com.hao.util.ServerResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +16,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author: haozhang
- * @Date: 2021/1/4 13:14
- */
-@Controller
+
+
+
+@RestController
+@CrossOrigin
 public class AdminController {
     /**
      * ok = 1 表示密码正确
@@ -30,6 +29,8 @@ public class AdminController {
         String name;
         String reason;
         int ok;
+
+        HttpSession session;
     }
 
     @Autowired
@@ -43,6 +44,24 @@ public class AdminController {
         return "login";
     }
 
+    @PostMapping("/register")
+    @ResponseBody
+    public int  register(HttpServletRequest request){
+        String body = HttpBodyHandlerUtils.readBody(request);
+        System.out.println("login_body: \n" + body);
+        Admin admin = HttpBodyHandlerUtils.stringToPojo(body, Admin.class);
+        if (adminService.isUsernameExists(admin)){
+            return -1;
+        }
+        else {
+            int response = adminService.addAdmin(admin);
+            return response;
+        }
+
+
+    }
+
+
     @PostMapping("/login")
     @ResponseBody
     public String login(HttpServletRequest request) {
@@ -55,13 +74,13 @@ public class AdminController {
             return ServerResponseUtil.serverResponse(0, "用户名或密码错误");
         } else {
             HttpSession session = request.getSession(true);
-            session.setAttribute("user", daoAdmin);
+            session.setAttribute("admin", daoAdmin);
             session.setMaxInactiveInterval(120 * 60);
-
             LoginResponse loginResponse = new LoginResponse();
             loginResponse.ok = 1;
             loginResponse.reason = "";
             loginResponse.name = daoAdmin.getUsername();
+            loginResponse.session = session;
             return HttpBodyHandlerUtils.pojoToString(loginResponse);
         }
     }
@@ -70,11 +89,17 @@ public class AdminController {
     @ResponseBody
     public String checkLogin(HttpServletRequest request) throws UnsupportedEncodingException {
         HttpSession session = request.getSession(false);
+        System.out.println("request\n");
         if (session == null) {
+            System.out.println(session);
             return ServerResponseUtil.serverResponse(0, "您还未登录");
         } else {
-            Admin admin = (Admin) session.getAttribute("user");
+            Admin admin = (Admin) session.getAttribute("admin");
+            System.out.println("用户");
+            System.out.println(admin);
+
             if (admin == null) {
+                System.out.println("admin=0");
                 return ServerResponseUtil.serverResponse(0, "您还未登录");
             } else {
                 LoginResponse loginResponse = new LoginResponse();
@@ -89,14 +114,14 @@ public class AdminController {
     @PostMapping("/add")
     @ResponseBody
     public String admin(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
+        /*HttpSession session = request.getSession(false);
         if (session == null) {
             return ServerResponseUtil.serverResponse(0, "您还未登录");
         } else {
             Admin admin = (Admin) session.getAttribute("user");
             if (admin == null) {
                 return ServerResponseUtil.serverResponse(0, "您还未登录");
-            } else {
+            } else {*/
                 String body = HttpBodyHandlerUtils.readBody(request);
                 System.out.println("add_body: \n" + body);
                 if (!HttpBodyHandlerUtils.isComplete(body)) {
@@ -114,11 +139,11 @@ public class AdminController {
                         LoginResponse loginResponse = new LoginResponse();
                         loginResponse.ok = i;
                         loginResponse.reason = "";
-                        loginResponse.name = admin.getUsername();
+                        /*loginResponse.name = admin.getUsername();*/
                         return HttpBodyHandlerUtils.pojoToString(loginResponse);
                     }
-                }
-            }
+               /* }
+            }*/
         }
     }
 
@@ -131,29 +156,30 @@ public class AdminController {
     @PostMapping("/delete")
     @ResponseBody
     public String deleteProblem(Integer id, HttpServletRequest request) {
+        System.out.println("删除题目ID：" + id);
         HttpSession session = request.getSession(false);
-        if (session == null) {
+        /*if (session == null) {
             return ServerResponseUtil.serverResponse(0, "您还未登录");
         } else {
-            Admin admin = (Admin) session.getAttribute("user");
+            Admin admin = (Admin) session.getAttribute("admin");
             if (admin == null) {
                 return ServerResponseUtil.serverResponse(0, "您还未登录");
-            } else {
+            } else {*/
                 int i = problemService.deleteProblem(id);
                 if (i == 0) {
                     LoginResponse loginResponse = new LoginResponse();
                     loginResponse.ok = i;
                     loginResponse.reason = "没有该题目";
-                    loginResponse.name = admin.getUsername();
+                    /*loginResponse.name = admin.getUsername();*/
                     return HttpBodyHandlerUtils.pojoToString(loginResponse);
                 } else {
                     LoginResponse loginResponse = new LoginResponse();
                     loginResponse.ok = i;
                     loginResponse.reason = "";
-                    loginResponse.name = admin.getUsername();
+                    /*loginResponse.name = admin.getUsername();*/
                     return HttpBodyHandlerUtils.pojoToString(loginResponse);
-                }
-            }
+                /*}
+            }*/
         }
     }
 
